@@ -95,7 +95,7 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Token invalid.',
             ],400);
-		} catch (Tymon\JWTAuth\Exceptions\JWTException $e){
+		} catch (JWTException $e){
 			return response()->json([
                 'success' => false,
                 'message' => 'Authorization token not found.',
@@ -106,7 +106,7 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Authentication success',
             'data' => $user
-        ],400);
+        ]);
 
 	}
 
