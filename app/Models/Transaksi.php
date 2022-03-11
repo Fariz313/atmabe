@@ -11,4 +11,16 @@ class transaksi extends Model
     protected $hidden = ['created_at', 'updated_at'];
     protected $table = "transaksi";
     protected $primaryKey = 'id_transaksi';
+    public function member()
+    {
+        return $this->hasOne(Member::class,'id_member','id_member');
+    }
+    public function paket()
+    {
+        return $this->hasOne(Paket::class,'id_paket','id_paket');
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class,'id_user','id_user');
+    }
 }

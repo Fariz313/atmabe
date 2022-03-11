@@ -37,7 +37,7 @@ class MemberController extends Controller
             'success' => true,
             'message' => 'Berhasil menambahkan member baru!',
             'data' => $data
-        ]); 
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -48,7 +48,7 @@ class MemberController extends Controller
             'jenis_kelamin' => 'required|string',
 		]);
 
-		if($validator->fails()){    
+		if($validator->fails()){
             return response()->json([
                 'success' => false,
                 'message' =>$validator->errors(),
@@ -64,7 +64,7 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambahkan outlet baru!'
-        ]); 
+        ]);
     }
 
     public function delete($id)
@@ -75,19 +75,19 @@ class MemberController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data outlet berhasil didapus!'
-            ]); 
+            ]);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data outlet gagal dihapus!'
-            ]); 
+            ]);
         }
     }
 
     public function getAll($limit = NULL, $offset = NULL)
     {
         $data["count"] = member::count();
-        
+
         if($limit == NULL && $offset == NULL){
             $data["member"] = member::get();
         } else {
@@ -98,17 +98,17 @@ class MemberController extends Controller
             'success' => true,
             'message' => 'Berhasil menambahkan member baru!',
             'data' => $data
-        ]); 
+        ]);
     }
 
     public function getById($id)
-    {   
-        $data["member"] = member::where('id_member', $id)->get();
+    {
+        $data["member"] = member::where('id_member', $id)->first();
 
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambahkan member baru!',
             'data' => $data
-        ]); 
+        ]);
     }
 }

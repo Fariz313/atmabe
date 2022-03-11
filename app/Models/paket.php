@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class paket extends Model
+class Paket extends Model
 {
     protected $fillable = ['id_paket', 'jenis', 'harga'];
     protected $hidden = ['created_at', 'updated_at'];

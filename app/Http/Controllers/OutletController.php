@@ -11,7 +11,7 @@ class OutletController extends Controller
     public function getAll($limit = NULL, $offset = NULL)
     {
         $data["count"] = Outlet::count();
-        
+
         if($limit == NULL && $offset == NULL){
             $data["outlet"] = Outlet::get();
         } else {
@@ -22,18 +22,18 @@ class OutletController extends Controller
             'success' => true,
             'message' => 'Berhasil menambahkan outlet baru!',
             'data' => $data
-        ]); 
+        ]);
     }
 
     public function getById($id)
-    {   
-        $data["outlet"] = Outlet::where('id_outlet', $id)->get();
+    {
+        $data["outlet"] = Outlet::where('id_outlet', $id)->first();
 
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambahkan outlet baru!',
             'data' => $data
-        ]); 
+        ]);
     }
 
     public function insert(Request $request)
@@ -46,19 +46,18 @@ class OutletController extends Controller
             return response()->json([
                 'success' => false,
                 'message' =>$validator->errors(),
-            ]);
+            ],400);
 		}
 
 		$outlet = new Outlet();
 		$outlet->nama_outlet = $request->nama_outlet;
 		$outlet->save();
 
-        $data = Outlet::where('id_outlet','=', $outlet->id_outlet)->first();
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambahkan outlet baru!',
-            'data' => $data
-        ]); 
+            'data' => $outlet
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -81,7 +80,7 @@ class OutletController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambahkan outlet baru!'
-        ]); 
+        ]);
     }
 
     public function delete($id)
@@ -92,12 +91,12 @@ class OutletController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data outlet berhasil didapus!'
-            ]); 
+            ]);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data outlet gagal dihapus!'
-            ]); 
+            ]);
         }
     }
 }
