@@ -47,7 +47,7 @@ class TransaksiController extends Controller
         $data = Transaksi::where('id_transaksi','=', $transaksi->id_transaksi)->first();
         return response()->json([
             'success' => true,
-            'message' => 'Berhasil memilih transaksi!',
+            'message' => 'Berhasil update transaksi!',
             'data' => $data
         ]);
     }
@@ -72,22 +72,35 @@ class TransaksiController extends Controller
 		}
 
 		$transaksi = Transaksi::where('id_transaksi','=', $id)->first();
-		$transaksi->id_member = $request->id_member;
-        $transaksi->tgl = $request->tgl;
-        $transaksi->tgl_bayar = $request->tgl_bayar;
-        $transaksi->batas_waktu = $request->batas_waktu;
-        $transaksi->status = $request->status;
-        $transaksi->dibayar = $request->dibayar;
-        $transaksi->id_user = Auth::user()->id_user;
-        $transaksi->id_paket = $request->id_paket;
-        $transaksi->berat = $request->berat;
+        if(!$user = JWTAuth::parseToken()->authenticate()){
+            return $this->response->errorResponse('Invalid token!');
+        }
+        if($request->input('id_member')){
+            $transaksi->id_member = $request->id_member;
+        }if($request->input('tgl')){
+            $transaksi->tgl = $request->tgl;
+        }if($request->input('tgl_bayar')){
+            $transaksi->tgl_bayar = $request->tgl_bayar;
+        }if($request->input('batas_waktu')){
+            $transaksi->batas_waktu = $request->batas_waktu;
+        }if($request->input('status')){
+            $transaksi->status = $request->status;
+        }if($request->input('dibayar')){
+            $transaksi->dibayar = $request->dibayar;
+            if($request->dibayar == 'dibayar'){
+                $transaksi->tgl_bayar = date('Y-m-d H:i:s');
+            }
+        }if($request->input('id_paket')){
+            $transaksi->id_paket = $request->id_paket;
+        }if($request->input('berat')){
+            $transaksi->berat = $request->berat;
+        }
+        $transaksi->id_user = $user->id_user;
 		$transaksi->save();
-
-        $data = Transaksi::where('id_transaksi','=', $transaksi->id_transaksi)->first();
         return response()->json([
             'success' => true,
-            'message' => 'Berhasil memilih transaksi!',
-            'data' => $data
+            'message' => 'Berhasil update transaksi!',
+            'data' => $transaksi
         ]);
     }
     public function delete($id)
